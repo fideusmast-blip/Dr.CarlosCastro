@@ -367,6 +367,54 @@
       line-height: 1.65;
     }
 
+    /* ── BLOG CARDS ── */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 22px;
+    }
+    .blog-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      text-decoration: none;
+      display: flex; flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .blog-card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,0.08); }
+    .blog-card-body { padding: 26px 28px 24px; display: flex; flex-direction: column; flex: 1; }
+    .blog-card-category {
+      font-size: 10.5px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 12px;
+    }
+    .blog-card h3 {
+      font-family: var(--serif);
+      font-size: 18px; font-weight: 500;
+      color: var(--ink); line-height: 1.32;
+      letter-spacing: -0.01em; margin-bottom: 10px;
+    }
+    .blog-card p {
+      font-size: 13.5px; color: var(--ink-muted);
+      line-height: 1.65; flex: 1; margin-bottom: 20px;
+    }
+    .blog-card-footer {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--sand-2);
+    }
+    .blog-card-date { font-size: 12px; color: var(--ink-muted); }
+    .blog-card-arrow {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent-light);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .blog-card:hover .blog-card-arrow { background: var(--accent); color: white; }
+
     /* ── TOOLS ── */
     .tools { max-width: var(--max-wide); margin: 0 auto; padding: 84px 28px; }
     .tools-header { margin-bottom: 44px; }
@@ -482,8 +530,9 @@
 
     /* ── LANGUAGE ── */
     [data-lang] { display: none !important; }
-    [data-lang].visible { display: inline !important; }
-    h1 > [data-lang].visible { display: block !important; }
+    [data-lang].visible { display: block !important; }
+    h3 > [data-lang].visible,
+    p > [data-lang].visible { display: inline !important; }
     .inline-lang { display: none !important; }
     .inline-lang.visible { display: inline !important; }
 
@@ -712,20 +761,36 @@
           <span class="inline-lang"         data-for="en">Articles</span>
         </p>
         <h2>
-          <span data-lang="es" class="visible">Próximamente</span>
-          <span data-lang="en">Coming soon</span>
+          <span data-lang="es" class="visible">Últimos artículos</span>
+          <span data-lang="en">Latest articles</span>
         </h2>
       </div>
-      <div class="blog-coming">
-        <div class="blog-coming-icon">✍️</div>
-        <h3>
-          <span data-lang="es" class="visible">Los artículos están en camino</span>
-          <span data-lang="en">Articles are on the way</span>
-        </h3>
-        <p>
-          <span data-lang="es" class="visible">Estoy preparando el primer contenido con el cuidado que merece. Suscríbete abajo para ser el primero en leerlo.</span>
-          <span data-lang="en">I'm preparing the first content with the care it deserves. Subscribe below to be the first to read it.</span>
-        </p>
+      <div class="blog-grid">
+        <a class="blog-card" href="articulo-wearables.html">
+          <div class="blog-card-body">
+            <div class="blog-card-category">
+              <span class="inline-lang visible" data-for="es">Tecnología y salud</span>
+              <span class="inline-lang"         data-for="en">Technology &amp; health</span>
+            </div>
+            <h3>
+              <span data-lang="es" class="visible">Tu reloj inteligente te dice que has dormido mal, pero tú te sientes bien. ¿A quién haces caso?</span>
+              <span data-lang="en">Your smartwatch says you slept badly, but you feel fine. Who do you listen to?</span>
+            </h3>
+            <p>
+              <span data-lang="es" class="visible">Guía práctica para iniciarte con un wearable sin que los datos acaben mandando sobre ti.</span>
+              <span data-lang="en">A practical guide to starting with a wearable without letting the data take over.</span>
+            </p>
+            <div class="blog-card-footer">
+              <span class="blog-card-date">
+                <span class="inline-lang visible" data-for="es">Abril 2025 · 4 min</span>
+                <span class="inline-lang"         data-for="en">April 2025 · 4 min</span>
+              </span>
+              <span class="blog-card-arrow">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </div>
+          </div>
+        </a>
       </div>
     </div>
   </section>
@@ -927,39 +992,21 @@
 
     function setLang(lang) {
       currentLang = lang;
-
-      // Update toggle buttons
       document.querySelectorAll('.lang-switch button').forEach((btn, i) => {
         btn.classList.toggle('active', (i===0 && lang==='es') || (i===1 && lang==='en'));
       });
-
-      // System 1: [data-lang] elements
       document.querySelectorAll('[data-lang]').forEach(el => {
-        const show = el.dataset.lang === lang;
-        el.classList.toggle('visible', show);
+        el.classList.toggle('visible', el.dataset.lang === lang);
       });
-
-      // System 2: .inline-lang [data-for] elements
       document.querySelectorAll('.inline-lang').forEach(el => {
         el.classList.toggle('visible', el.dataset.for === lang);
       });
-
-      // Nav links with data-nav-es / data-nav-en
       document.querySelectorAll('[data-nav-es]').forEach(el => {
         el.textContent = lang === 'es' ? el.dataset.navEs : el.dataset.navEn;
       });
-
-      // HTML lang attribute
       document.documentElement.lang = lang;
-
-      // Email placeholder
       const inp = document.getElementById('email-input');
       if (inp) inp.placeholder = lang === 'es' ? 'tu@email.com' : 'your@email.com';
-
-      // Update BMI modal if it's open
-      if (document.getElementById('bmi-modal').classList.contains('open')) {
-        updateBMILang();
-      }
     }
 
     function handleSubscribe() {

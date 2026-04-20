@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tu reloj dice que has dormido mal, pero tú te sientes bien — Dr. Carlos Castro</title>
+  <meta name="description" content="Los wearables miden, pero tú decides. Guía práctica para iniciarte con un dispositivo de salud sin obsesionarte con los datos." />
+  <meta name="author" content="Dr. Carlos Castro" />
+  <meta property="og:title" content="Tu reloj dice que has dormido mal, pero tú te sientes bien" />
+  <meta property="og:description" content="Guía para iniciarte con un wearable: qué miden, qué no miden, y cómo usarlos sin que dominen tu vida." />
+  <meta property="og:type" content="article" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --sand-0: #faf8f4;
+      --sand-1: #f4f0e8;
+      --sand-2: #ede7da;
+      --sand-3: #e0d8c8;
+      --sand-4: #c8bfad;
+      --white: #ffffff;
+      --ink: #1c1917;
+      --ink-soft: #44403c;
+      --ink-muted: #78716c;
+      --accent: #2a5c7a;
+      --accent-mid: #3a7a9e;
+      --accent-light: #e8f2f7;
+      --accent-hover: #1e4459;
+      --border: #ddd6c8;
+      --serif: 'Lora', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --max: 700px;
+      --max-wide: 1080px;
+      --radius: 6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--sand-0);
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── GRAIN ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 1000;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky; top: 0;
+      background: rgba(250,248,244,0.93);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      z-index: 50; padding: 0 28px;
+    }
+    nav {
+      max-width: var(--max-wide); margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: space-between; height: 62px;
+    }
+    .nav-logo {
+      font-family: var(--serif); font-size: 17px;
+      font-weight: 500; color: var(--ink);
+      text-decoration: none; letter-spacing: -0.01em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-back {
+      font-size: 13.5px; color: var(--ink-muted);
+      text-decoration: none; display: flex;
+      align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+    .nav-back svg { width: 14px; height: 14px; }
+
+    /* ── ARTICLE LAYOUT ── */
+    .article-wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 60px 28px 100px;
+    }
+
+    /* ── HEADER BLOCK ── */
+    .article-meta {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 28px;
+    }
+    .article-category {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-light);
+      padding: 4px 10px; border-radius: 20px;
+    }
+    .article-date {
+      font-size: 13px; color: var(--ink-muted);
+    }
+    .article-date::before {
+      content: '·'; margin-right: 10px; color: var(--sand-4);
+    }
+
+    .article-title {
+      font-family: var(--serif);
+      font-size: clamp(26px, 5vw, 36px);
+      font-weight: 500; line-height: 1.22;
+      letter-spacing: -0.02em;
+      color: var(--ink); margin-bottom: 16px;
+    }
+    .article-title em { font-style: italic; color: var(--accent); }
+
+    .article-subtitle {
+      font-size: 17px; color: var(--ink-soft);
+      line-height: 1.6; margin-bottom: 36px;
+      font-family: var(--serif); font-style: italic;
+      font-weight: 400;
+    }
+
+    .article-divider {
+      height: 1px; background: var(--border);
+      margin-bottom: 40px;
+    }
+
+    /* ── BODY TYPOGRAPHY ── */
+    .article-body p {
+      margin-bottom: 22px;
+      color: var(--ink-soft);
+    }
+    .article-body p:first-child {
+      font-size: 18px; line-height: 1.72;
+      color: var(--ink);
+    }
+
+    .article-body h2 {
+      font-family: var(--serif);
+      font-size: 21px; font-weight: 500;
+      color: var(--ink); margin: 44px 0 16px;
+      letter-spacing: -0.01em; line-height: 1.3;
+    }
+
+    .article-body h3 {
+      font-family: var(--sans);
+      font-size: 14px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent); margin: 36px 0 12px;
+    }
+
+    /* ── CALLOUT BOX ── */
+    .callout {
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 18px 22px; margin: 28px 0;
+    }
+    .callout p {
+      margin: 0 !important;
+      color: var(--accent-hover) !important;
+      font-size: 15.5px;
+    }
+
+    /* ── CHECKLIST ── */
+    .check-list {
+      list-style: none; margin: 16px 0 24px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .check-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 16px; color: var(--ink-soft); line-height: 1.55;
+    }
+    .check-list li::before {
+      content: '✓';
+      color: var(--accent); font-weight: 600;
+      font-size: 14px; margin-top: 2px; flex-shrink: 0;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      margin: 28px 0 32px;
+      display: flex; flex-direction: column; gap: 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 19px; top: 8px; bottom: 8px;
+      width: 1px; background: var(--border);
+    }
+    .timeline-item {
+      display: flex; gap: 20px; align-items: flex-start;
+      padding: 0 0 28px;
+      position: relative;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+      margin-top: 6px;
+      box-shadow: 0 0 0 4px var(--accent-light);
+      position: relative; z-index: 1; margin-left: 15px;
+    }
+    .timeline-content { flex: 1; }
+    .timeline-label {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 4px;
+    }
+    .timeline-title {
+      font-family: var(--serif); font-size: 17px;
+      font-weight: 500; color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .timeline-desc {
+      font-size: 15.5px; color: var(--ink-soft); line-height: 1.6;
+    }
+
+    /* ── CLOSING QUOTE ── */
+    .article-closing {
+      margin: 48px 0 36px;
+      padding: 32px 36px;
+      background: var(--sand-1);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+    }
+    .article-closing p {
+      font-family: var(--serif);
+      font-size: 19px; font-style: italic;
+      font-weight: 400; line-height: 1.5;
+      color: var(--ink); margin: 0 !important;
+    }
+    .article-closing cite {
+      display: block; margin-top: 12px;
+      font-family: var(--sans); font-style: normal;
+      font-size: 13px; color: var(--ink-muted);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── SHARE + SUBSCRIBE ── */
+    .article-footer {
+      margin-top: 56px;
+      padding-top: 36px;
+      border-top: 1px solid var(--border);
+    }
+    .article-author {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 36px;
+    }
+    .author-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--accent-light);
+      border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 16px;
+      color: var(--accent); font-weight: 500; flex-shrink: 0;
+    }
+    .author-info { flex: 1; }
+    .author-name {
+      font-size: 14px; font-weight: 500; color: var(--ink);
+    }
+    .author-role {
+      font-size: 12.5px; color: var(--ink-muted);
+    }
+
+    .newsletter-cta {
+      background: var(--accent);
+      border-radius: 8px;
+      padding: 28px 32px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .newsletter-cta p {
+      color: rgba(255,255,255,0.88);
+      font-size: 15px; margin: 0;
+    }
+    .newsletter-cta strong {
+      display: block; font-family: var(--serif);
+      font-size: 18px; font-weight: 500;
+      color: white; margin-bottom: 2px;
+    }
+    .newsletter-form {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .newsletter-form input {
+      flex: 1; min-width: 180px;
+      padding: 10px 14px; border-radius: var(--radius);
+      border: none; font-family: var(--sans);
+      font-size: 14px; background: rgba(255,255,255,0.15);
+      color: white; outline: none;
+    }
+    .newsletter-form input::placeholder { color: rgba(255,255,255,0.55); }
+    .newsletter-form input:focus { background: rgba(255,255,255,0.22); }
+    .newsletter-form button {
+      padding: 10px 20px; border-radius: var(--radius);
+      background: white; color: var(--accent);
+      font-family: var(--sans); font-size: 13.5px;
+      font-weight: 500; border: none; cursor: pointer;
+      white-space: nowrap; transition: opacity 0.2s;
+    }
+    .newsletter-form button:hover { opacity: 0.88; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 28px;
+      background: var(--sand-0);
+    }
+    .footer-inner {
+      max-width: var(--max-wide); margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-logo {
+      font-family: var(--serif); font-size: 15px;
+      font-weight: 500; color: var(--ink);
+    }
+    .footer-copy { font-size: 12px; color: var(--ink-muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      .article-wrap { padding: 40px 20px 80px; }
+      .article-closing { padding: 24px 20px; }
+      .newsletter-cta { padding: 22px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="index.html" class="nav-logo"><span>Dr.</span> Carlos Castro</a>
+      <a href="index.html#blog" class="nav-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Todos los artículos
+      </a>
+    </nav>
+  </header>
+
+  <main class="article-wrap">
+
+    <div class="article-meta">
+      <span class="article-category">Tecnología y salud</span>
+      <span class="article-date">Abril 2025</span>
+    </div>
+
+    <h1 class="article-title">
+      Tu reloj inteligente te dice que has dormido mal,<br>
+      pero tú te sientes bien. <em>¿A quién haces caso?</em>
+    </h1>
+
+    <p class="article-subtitle">
+      Guía para iniciarte con un wearable sin que los datos acaben mandando sobre ti.
+    </p>
+
+    <div class="article-divider"></div>
+
+    <div class="article-body">
+
+      <p>
+        En los últimos años los dispositivos de monitoreo de salud se han extendido entre la población. Ya no solo miden el pulso: también estiman calorías consumidas, temperatura corporal, calidad del sueño… Cómo encajar todo eso en el día a día es lo que trataré de aclarar hoy.
+      </p>
+
+      <h2>¿Es recomendable usarlos?</h2>
+
+      <p>
+        Sí, pero con matices importantes. Pueden ser muy útiles, aunque sólo si estás dispuesto a modificar tus hábitos; de lo contrario, sería tirar el dinero. Además, es posible conseguir resultados iguales —o incluso mejores— sin estos dispositivos. Dicho esto, su valor real está en la <em>llamada a la acción</em>: la notificación en la muñeca, el acceso directo al teléfono, el recordatorio constante que empuja a actuar.
+      </p>
+
+      <h2>¿A quién le puede venir bien?</h2>
+
+      <p>Si te encuentras en alguno de estos grupos, un wearable puede ser una buena herramienta para ti:</p>
+
+      <ul class="check-list">
+        <li>No estás satisfecho con tu rendimiento deportivo o físico.</li>
+        <li>Eres deportista de alto rendimiento o tienes una competición próxima.</li>
+        <li>Quieres mejorar tu peso y condición física.</li>
+        <li>Tienes buen estado de salud pero quieres conocerte mejor y verificar que vas por el buen camino.</li>
+      </ul>
+
+      <h2>Lo que casi nadie te va a advertir</h2>
+
+      <h3>Sobre la precisión</h3>
+
+      <p>
+        Estos relojes y brazaletes miden unos pocos datos reales —pulsaciones por minuto, movimiento— y a partir de ahí <em>estiman</em> muchos otros: horas de sueño, VO2 máximo, estado físico, incluso edad biológica. Son estimaciones, no diagnósticos. Además, durante las primeras semanas el propio dispositivo puede cambiar resultados anteriores mientras se calibra.
+      </p>
+
+      <div class="callout">
+        <p>Si te sientes descansado pero tu monitor dice lo contrario, lo importante es lo que tú sientas. Los datos orientan; tu percepción no desaparece.</p>
+      </div>
+
+      <h3>Sobre la sobrecarga de información</h3>
+
+      <p>
+        El objetivo único de estos dispositivos es mejorar tu salud, y eso lo lograrás desarrollando mejores rutinas de sueño, alimentación y ejercicio. Un mal uso desde el principio puede generar justo lo contrario: más estrés por las alertas de los cientos de objetivos que el dispositivo te va a sugerir. Tu médico te ayudará a interpretar la evolución y a poner los datos en perspectiva.
+      </p>
+
+      <h2>Un calendario que puedes probar</h2>
+
+      <p>
+        Si decides dar el paso, este esquema de seis semanas te ayudará a sacarle partido sin perderte en los datos.
+      </p>
+
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-label">Semanas 1–2</div>
+            <div class="timeline-title">Calibración y toma de contacto</div>
+            <div class="timeline-desc">
+              Úsalo de forma continua haciendo vida normal, sin cambiar nada de tu rutina. El objetivo es recoger el máximo de datos: tipos de ejercicio, alimentos, peso. El dispositivo se calibra; tú te familiarizas con él.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-label">Semana 3</div>
+            <div class="timeline-title">Define objetivos con tu equipo de salud</div>
+            <div class="timeline-desc">
+              Este es el momento de consultar a tu médico, entrenador o nutricionista —idealmente a todos, coordinados—. Tu médico de familia es quien más puede ayudarte a interpretar los datos y definir metas realistas.
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-label">Semanas 3–6</div>
+            <div class="timeline-title">Introducción de cambios y creación de hábitos</div>
+            <div class="timeline-desc">
+              Introduce cambios poco a poco y mantenlos. Lo más probable es que veas resultados importantes, aunque algunos datos tardarán más en moverse. No te preocupes: si mantienes los hábitos, llegarás a verlos. Al final del primer mes comparte los resultados con tu equipo de salud.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <h2>¿Por qué debes tomarte un descanso de estas tecnologías?</h2>
+
+      <p>
+        Entre cuatro y seis semanas son suficientes para la mayoría de nosotros: tiempo para entender qué hábitos desarrollar, conocer tus límites y tus necesidades diarias. La aplicación te ofrece el feedback de cómo los estás incorporando y si la intensidad de los entrenamientos es la adecuada.
+      </p>
+
+      <p>
+        Obsesionarse con los datos y perder de vista la mejora real de tu salud puede convertirse en un problema en sí mismo. Por eso conviene tomarse vacaciones del wearable de vez en cuando. Confía en lo que has aprendido de ti durante las semanas de uso y concéntrate en mantener los buenos hábitos que ya has empezado a construir.
+      </p>
+
+      <div class="article-closing">
+        <p>"La tecnología puede ser tu aliada, pero la brújula sigues siendo tú."</p>
+        <cite>— Dr. Carlos Castro</cite>
+      </div>
+
+    </div>
+
+    <!-- FOOTER DEL ARTÍCULO -->
+    <div class="article-footer">
+
+      <div class="article-author">
+        <div class="author-avatar">CC</div>
+        <div class="author-info">
+          <div class="author-name">Dr. Carlos Castro</div>
+          <div class="author-role">Médico residente de Medicina Familiar y Comunitaria · Oviedo</div>
+        </div>
+      </div>
+
+      <div class="newsletter-cta">
+        <div>
+          <strong>¿Te ha sido útil?</strong>
+          <p>Suscríbete para recibir el próximo artículo. Sin spam, sin alarmismo.</p>
+        </div>
+        <div class="newsletter-form">
+          <input type="email" placeholder="tu@email.com" id="email-art" />
+          <button onclick="handleSubscribeArt()">Suscribirse</button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Dr. Carlos Castro</div>
+      <p class="footer-copy">© 2025 Dr. Carlos Castro</p>
+    </div>
+  </footer>
+
+  <script>
+    function handleSubscribeArt() {
+      const email = document.getElementById('email-art').value;
+      if (email && email.includes('@')) {
+        alert('¡Gracias! Pronto recibirás noticias.');
+        document.getElementById('email-art').value = '';
+      } else {
+        alert('Por favor, introduce un email válido.');
+      }
+    }
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.06 });
+
+    document.querySelectorAll('.callout, .timeline-item, .article-closing, .newsletter-cta').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(12px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
